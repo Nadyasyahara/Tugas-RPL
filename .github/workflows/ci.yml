@@ -1,0 +1,33 @@
+name: SILAMAS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mengambil kode proyek
+        uses: actions/checkout@v4
+
+      - name: Menyiapkan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Menginstal dependensi
+        run: npm ci
+
+      - name: Memeriksa kode TypeScript
+        run: npm run lint
+
+      - name: Menjalankan pengujian
+        run: npm test
+
+      - name: Melakukan build aplikasi
+        run: npm run build
